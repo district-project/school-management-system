@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,10 @@ use App\Http\Controllers\AuthController;
 Route::get('/', [AuthController::class, 'login']);
 Route::post('login', [AuthController::class, 'AuthLogin']);
 Route::get('logout', [AuthController::class, 'logout']);
+Route::get('forgot-password', [AuthController::class, 'forgotpassword'])->name('forgot-password');
+Route::post('forgot-password', [AuthController::class, 'Postforgotpassword']);
+Route::get('reset/{token}', [AuthController::class, 'reset']);
+Route::post('reset/{token}', [AuthController::class, 'PostReset']);
 
 
 
@@ -29,26 +34,18 @@ Route::get('admin/admin/list', function () {
 })->name('admin.list');
 
 Route::group(['middleware' => 'admin'], function(){
-    Route::get('admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
 });
 Route::group(['middleware' => 'teacher'], function(){
-    Route::get('teacher/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('teacher.dashboard');
+    Route::get('teacher/dashboard', [DashboardController::class, 'dashboard'])->name('teacher.dashboard');
 
 });
 Route::group(['middleware' => 'student'], function(){
-    Route::get('student/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('student.dashboard');
+    Route::get('student/dashboard', [DashboardController::class, 'dashboard'])->name('student.dashboard');
 
 });
 Route::group(['middleware' => 'parent'], function(){
-    Route::get('parent/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('parent.dashboard');
+    Route::get('parent/dashboard', [DashboardController::class, 'dashboard'])->name('parent.dashboard');
 
 });
